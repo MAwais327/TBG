@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tvScore, tvTimer;
+    private TextView tvScore, tvTimer, tvHint;
     private Button btnTap;
     private RelativeLayout gameLayout;
 
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvScore    = findViewById(R.id.tvScore);
         tvTimer    = findViewById(R.id.tvTimer);
+        tvHint     = findViewById(R.id.tvHint);
         btnTap     = findViewById(R.id.btnTap);
         gameLayout = findViewById(R.id.gameLayout);
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private void startGame() {
         score = 0;
         gameActive = true;
+        tvHint.setVisibility(View.GONE);
         btnTap.setText("TAP!");
         updateScoreDisplay();
         moveButtonToRandomPosition();
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         if (countDownTimer != null) countDownTimer.cancel();
 
         btnTap.setText("Play Again");
+        tvHint.setVisibility(View.VISIBLE);
+        tvHint.setText("Game Over!");
 
         // Move button back to center
         RelativeLayout.LayoutParams params =
@@ -72,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         params.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
         params.removeRule(RelativeLayout.ALIGN_PARENT_START);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        params.leftMargin = 0;
+        params.topMargin = 0;
         btnTap.setLayoutParams(params);
 
         tvScore.setText("Final Score: " + score);
