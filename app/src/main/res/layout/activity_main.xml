@@ -1,67 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/gameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="#1A1A2E">
 
-    <!-- Score -->
-    <TextView
-        android:id="@+id/tvScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="16dp"
-        android:text="Score: 0"
-        android:textColor="#E94560"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0F3460"
+        android:elevation="4dp"
+        android:title="Tap Battle" />
 
-    <!-- Timer -->
-    <TextView
-        android:id="@+id/tvTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:text="Time: 30s"
-        android:textColor="#0F3460"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    <!-- Game area -->
+    <RelativeLayout
+        android:id="@+id/gameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- Hint label (shows only before game starts) -->
-    <TextView
-        android:id="@+id/tvHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="120dp"
-        android:text="Tap the button to start!"
-        android:textColor="#AAAAAA"
-        android:textSize="18sp" />
+        <!-- Score -->
+        <TextView
+            android:id="@+id/tvScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="16dp"
+            android:text="Score: 0"
+            android:textColor="#E94560"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    <!-- TAP button — centered at start, moves during game -->
-    <Button
-        android:id="@+id/btnTap"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/btn_tap_bg"
-        app:backgroundTint="@null"
-        android:text="START"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:elevation="8dp" />
+        <!-- Timer -->
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:text="Time: 30s"
+            android:textColor="#FFFFFF"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
+        <!-- Player name -->
+        <TextView
+            android:id="@+id/tvPlayerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvScore"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:text="Player: Player"
+            android:textColor="#AAAAAA"
+            android:textSize="14sp" />
 
-</RelativeLayout>
+        <!-- Hint -->
+        <TextView
+            android:id="@+id/tvHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="120dp"
+            android:text="Tap the button to start!"
+            android:textColor="#AAAAAA"
+            android:textSize="18sp" />
+
+        <!-- TAP button -->
+        <Button
+            android:id="@+id/btnTap"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/btn_tap_bg"
+            android:text="START"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:elevation="8dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
