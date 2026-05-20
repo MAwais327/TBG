@@ -1,5 +1,7 @@
 package com.example.tapbattlegame;
 
+import com.example.tapbattlegame.R;
+
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
 
         tvScore      = findViewById(R.id.tvScore);

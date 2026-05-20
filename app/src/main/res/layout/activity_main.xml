@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#1A1A2E">
+    android:background="#FFF9C4">
 
     <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#0F3460"
+        android:background="#FF6F00"
         android:elevation="4dp"
-        android:title="Tap Battle" />
+        android:title="🎮 Tap Battle" />
 
     <!-- Game area -->
     <RelativeLayout
@@ -30,8 +30,8 @@
             android:layout_alignParentStart="true"
             android:layout_margin="16dp"
             android:text="Score: 0"
-            android:textColor="#E94560"
-            android:textSize="22sp"
+            android:textColor="#D32F2F"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <!-- Timer -->
@@ -43,8 +43,8 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="16dp"
             android:text="Time: 30s"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp"
+            android:textColor="#1565C0"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <!-- Player name -->
@@ -56,8 +56,9 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
             android:text="Player: Player"
-            android:textColor="#AAAAAA"
-            android:textSize="14sp" />
+            android:textColor="#558B2F"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
         <!-- Hint -->
         <TextView
@@ -65,21 +66,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_marginBottom="120dp"
-            android:text="Tap the button to start!"
-            android:textColor="#AAAAAA"
-            android:textSize="18sp" />
+            android:layout_marginBottom="140dp"
+            android:text="⭐ Tap the button to start! ⭐"
+            android:textColor="#F57F17"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <!-- TAP button -->
         <Button
             android:id="@+id/btnTap"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_centerInParent="true"
             android:background="@drawable/btn_tap_bg"
             android:text="START"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:elevation="8dp" />
 
