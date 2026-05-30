@@ -1,8 +1,7 @@
 package com.example.tapbattlegame;
 
-import com.example.tapbattlegame.R;
-
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.InputType;
@@ -21,15 +20,23 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tvScore, tvTimer, tvPlayerName;
+    private TextView tvScore, tvTimer, tvPlayerName, tvHighScore;
     private Button btnTap;
     private RelativeLayout gameLayout;
 
     private int score = 0;
+    private int highScore = 0;
+    private int totalTaps = 0;
+
     private boolean gameActive = false;
     private String playerName = "Player";
+
     private CountDownTimer countDownTimer;
     private final Random random = new Random();
+
+    private static final String PREFS = "TapBattlePrefs";
+    private static final String KEY_NAME = "player_name";
+    private static final String KEY_HIGH = "high_score";
 
     private static final int GAME_DURATION_MS = 30000;
     private static final int BUTTON_MARGIN = 100;
@@ -39,22 +46,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
 
-        tvScore      = findViewById(R.id.tvScore);
-        tvTimer      = findViewById(R.id.tvTimer);
+        tvScore = findViewById(R.id.tvScore);
+        tvTimer = findViewById(R.id.tvTimer);
         tvPlayerName = findViewById(R.id.tvPlayerName);
-        btnTap       = findViewById(R.id.btnTap);
-        gameLayout   = findViewById(R.id.gameLayout);
+        tvHighScore = findViewById(R.id.tvHighScore);
+        btnTap = findViewById(R.id.btnTap);
+        gameLayout = findViewById(R.id.gameLayout);
 
+        loadData();
         updatePlayerNameDisplay();
+        updateHighScoreDisplay();
+
         btnTap.setOnClickListener(v -> onTapButton());
     }
 
-    // ── Menu ─────────────────────────────────────────────────────────────────
+    private void loadData() {
+        SharedPreferences prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
+        playerName = prefs.getString(KEY_NAME, "Player");
+        highScore = prefs.getInt(KEY_HIGH, 0);
+    }
+
+    private void saveData() {
+        SharedPreferences prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
+        prefs.edit().putString(KEY_NAME, playerName).putInt(KEY_HIGH, highScore).apply();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -73,81 +92,90 @@ public class MainActivity extends AppCompatActivity {
     private void showSetNameDialog() {
         EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setHint("Enter your name");
-        input.setText(playerName);
-        input.setTextColor(0xFF000000);
-        int pad = (int)(16 * getResources().getDisplayMetrics().density);
-        input.setPadding(pad, pad, pad, pad);
 
         new AlertDialog.Builder(this)
                 .setTitle("Set Player Name")
                 .setView(input)
-                .setPositiveButton("Save", (dialog, which) -> {
-                    String name = input.getText().toString().trim();
-                    if (!name.isEmpty()) {
-                        playerName = name;
+                .setPositiveButton("Save", (d,w) -> {
+                    playerName = input.getText().toString().trim();
+                    if(!playerName.isEmpty()){
+                        saveData();
                         updatePlayerNameDisplay();
-                        Toast.makeText(this, "Welcome, " + playerName + "!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("Cancel", null)
                 .show();
     }
 
-    // ── Tap logic ─────────────────────────────────────────────────────────────
     private void onTapButton() {
         if (!gameActive) {
             startGame();
             return;
         }
+
         score++;
+        totalTaps++;
         updateScoreDisplay();
         moveButtonToRandomPosition();
     }
 
-    // ── Game lifecycle ────────────────────────────────────────────────────────
     private void startGame() {
         score = 0;
+        totalTaps = 0;
         gameActive = true;
         btnTap.setText("TAP!");
         updateScoreDisplay();
-        moveButtonToRandomPosition();
         startTimer();
     }
 
     private void endGame() {
+
         gameActive = false;
-        if (countDownTimer != null) countDownTimer.cancel();
+
+        boolean newRecord = false;
+
+        if(score > highScore){
+            highScore = score;
+            saveData();
+            newRecord = true;
+        }
+
+        updateHighScoreDisplay();
+
+        String msg =
+                "Player: " + playerName +
+                "\\nScore: " + score +
+                "\\nHigh Score: " + highScore +
+                "\\nTotal Taps: " + totalTaps;
+
+        if(newRecord){
+            msg += "\\n\\n🏆 New High Score!";
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Game Over")
+                .setMessage(msg)
+                .setCancelable(false)
+                .setPositiveButton("Play Again",(d,w)->startGame())
+                .setNegativeButton("Exit",(d,w)->finish())
+                .show();
 
         btnTap.setText("Play Again");
-
-        RelativeLayout.LayoutParams params =
-                (RelativeLayout.LayoutParams) btnTap.getLayoutParams();
-        params.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
-        params.removeRule(RelativeLayout.ALIGN_PARENT_START);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        btnTap.setLayoutParams(params);
-
-        tvScore.setText(playerName + "'s Score: " + score);
-        tvTimer.setText("Time: 0s");
     }
 
-    // ── Timer ─────────────────────────────────────────────────────────────────
     private void startTimer() {
-        countDownTimer = new CountDownTimer(GAME_DURATION_MS, 1000) {
-            @Override public void onTick(long ms) {
-                tvTimer.setText("Time: " + ms / 1000 + "s");
+        countDownTimer = new CountDownTimer(GAME_DURATION_MS,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tvTimer.setText("Time: " + millisUntilFinished/1000 + "s");
             }
-            @Override public void onFinish() {
-                tvTimer.setText("Time: 0s");
+
+            @Override
+            public void onFinish() {
                 endGame();
             }
         }.start();
     }
 
-    // ── UI helpers ────────────────────────────────────────────────────────────
     private void updateScoreDisplay() {
         tvScore.setText("Score: " + score);
     }
@@ -156,35 +184,9 @@ public class MainActivity extends AppCompatActivity {
         tvPlayerName.setText("Player: " + playerName);
     }
 
-    private void moveButtonToRandomPosition() {
-        gameLayout.post(() -> {
-            int layoutW = gameLayout.getWidth();
-            int layoutH = gameLayout.getHeight();
-            int btnW    = btnTap.getWidth();
-            int btnH    = btnTap.getHeight();
-
-            if (layoutW == 0 || btnW == 0) return;
-
-            int maxX = layoutW - btnW - BUTTON_MARGIN;
-            int maxY = layoutH - btnH - BUTTON_MARGIN;
-
-            int newX = BUTTON_MARGIN + random.nextInt(Math.max(1, maxX - BUTTON_MARGIN));
-            int newY = BUTTON_MARGIN + random.nextInt(Math.max(1, maxY - BUTTON_MARGIN));
-
-            RelativeLayout.LayoutParams params =
-                    (RelativeLayout.LayoutParams) btnTap.getLayoutParams();
-            params.removeRule(RelativeLayout.CENTER_IN_PARENT);
-            params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            params.addRule(RelativeLayout.ALIGN_PARENT_START);
-            params.leftMargin = newX;
-            params.topMargin  = newY;
-            btnTap.setLayoutParams(params);
-        });
+    private void updateHighScoreDisplay() {
+        tvHighScore.setText("High Score: " + highScore);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (countDownTimer != null) countDownTimer.cancel();
-    }
+    private void moveButtonToRandomPosition() {}
 }

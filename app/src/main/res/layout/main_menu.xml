@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <item
-        android:id="@+id/action_set_name"
-        android:title="Set Name"
-        android:icon="@android:drawable/ic_menu_edit"
-        app:showAsAction="always" />
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/action_set_name" android:title="Set Name"/>
+<item android:id="@+id/easy" android:title="Easy"/>
+<item android:id="@+id/medium" android:title="Medium"/>
+<item android:id="@+id/hard" android:title="Hard"/>
 </menu>

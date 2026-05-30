@@ -1,90 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFF9C4">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:background="#ECEFF1">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#FF6F00"
-        android:elevation="4dp"
-        android:title="🎮 Tap Battle" />
+<androidx.appcompat.widget.Toolbar
+android:id="@+id/toolbar"
+android:layout_width="match_parent"
+android:layout_height="?attr/actionBarSize"/>
 
-    <!-- Game area -->
-    <RelativeLayout
-        android:id="@+id/gameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<RelativeLayout
+android:id="@+id/gameLayout"
+android:layout_width="match_parent"
+android:layout_height="match_parent">
 
-        <!-- Score -->
-        <TextView
-            android:id="@+id/tvScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_margin="16dp"
-            android:text="Score: 0"
-            android:textColor="#D32F2F"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+<TextView
+android:id="@+id/tvScore"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="Score: 0"/>
 
-        <!-- Timer -->
-        <TextView
-            android:id="@+id/tvTimer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="16dp"
-            android:text="Time: 30s"
-            android:textColor="#1565C0"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+<TextView
+android:id="@+id/tvPlayerName"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_below="@id/tvScore"
+android:text="Player: Player"/>
 
-        <!-- Player name -->
-        <TextView
-            android:id="@+id/tvPlayerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvScore"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="16dp"
-            android:text="Player: Player"
-            android:textColor="#558B2F"
-            android:textSize="15sp"
-            android:textStyle="italic" />
+<TextView
+android:id="@+id/tvHighScore"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_below="@id/tvPlayerName"
+android:text="High Score: 0"/>
 
-        <!-- Hint -->
-        <TextView
-            android:id="@+id/tvHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="140dp"
-            android:text="⭐ Tap the button to start! ⭐"
-            android:textColor="#F57F17"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+<TextView
+android:id="@+id/tvTimer"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"/>
 
-        <!-- TAP button -->
-        <Button
-            android:id="@+id/btnTap"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/btn_tap_bg"
-            android:text="START"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:elevation="8dp" />
-
-    </RelativeLayout>
-
+<Button
+android:id="@+id/btnTap"
+android:layout_width="130dp"
+android:layout_height="130dp"
+android:text="START"/>
+</RelativeLayout>
 </LinearLayout>
